@@ -18,98 +18,98 @@ import com.mongodb.client.MongoDatabase;
 import utils.PropertyUtils;
 
 /**
- * Ê¹ÓÃÇı¶¯Á´½ÓmongodbÊı¾İ¿â
+ * ä½¿ç”¨é©±åŠ¨é“¾æ¥mongodbæ•°æ®åº“
  * 
  * @author DLHT
  *
  */
 
 public class MongoDBPool {
-	// ½¨Á¢È«¾Ö±äÁ¿mongoclient
+	// å»ºç«‹å…¨å±€å˜é‡mongoclient
 	private static MongoClient mongoClient = null;
 
-	// ½¨Á¢getdb·½·¨£¬¸ø³öÍâ²¿µ÷ÓÃ·½·¨
+	// å»ºç«‹getdbæ–¹æ³•ï¼Œç»™å‡ºå¤–éƒ¨è°ƒç”¨æ–¹æ³•
 	public static MongoDatabase getDB() {
 		MongoDatabase conn = null;
-		// Èç¹ûmongoclientÎ´³õÊ¼»¯£¬ÔòÏÈ³õÊ¼»¯
+		// å¦‚æœmongoclientæœªåˆå§‹åŒ–ï¼Œåˆ™å…ˆåˆå§‹åŒ–
 		if (mongoClient == null) {
-			// ¸ù¾İ×Ô¼ºĞèÒªÁ´½Ó£¬ÕâÀï³õÊ¼»¯´øÈÏÖ¤µÄ
+			// æ ¹æ®è‡ªå·±éœ€è¦é“¾æ¥ï¼Œè¿™é‡Œåˆå§‹åŒ–å¸¦è®¤è¯çš„
 			initMongoDBAuth();
 
-			// ÎŞĞè¾­¹ıÈÏÖ¤
+			// æ— éœ€ç»è¿‡è®¤è¯
 			// initMongoDBNoAuth();
 		}
 		conn = mongoClient.getDatabase(PropertyUtils.getValue("database"));
 		return conn;
 	}
 
-	// mongodb Á¬½Ó³Ø²ÎÊı
+	// mongodb è¿æ¥æ± å‚æ•°
 	private static MongoClientOptions mongoClientOptions() {
 		Builder builder = new MongoClientOptions.Builder();
-		builder.connectionsPerHost(100);// Ã¿¸öÖ÷»úµÄ×î´óÁ´½ÓÊı
-		builder.threadsAllowedToBlockForConnectionMultiplier(50);// ×î´óÇëÇóµÈ´ıÊı
-		builder.minConnectionsPerHost(10);// Ã¿¸öÖ÷»úµÄ×îĞ¡Á´½ÓÊı
-		builder.connectTimeout(5000);// Á´½Ó³¬Ê±Ê±¼ä
-		builder.heartbeatConnectTimeout(5000);// ºóÌ¨¼ì²âÃ¿¸ömongoclientÁ´½ÓµÄ³¬Ê±Ê±¼ä
-		builder.heartbeatFrequency(100000);// ºóÌ¨¼ì²âÃ¿¸ömongoclientÁ´½ÓµÄÆµÂÊ
-		builder.minHeartbeatFrequency(10000);// ºóÌ¨¼ì²âÃ¿¸ömongoclientÁ´½ÓµÄ×îĞ¡ÆµÂÊ
-		builder.heartbeatSocketTimeout(2000);// ºóÌ¨¼ì²âÃ¿¸ömongoclientµÄÌ×½Ó×Ö³¬Ê±Ê±¼ä
-		builder.maxConnectionIdleTime(10000);// ×î´ó¿ÕÏĞÁ´½ÓÊ±¼ä
-		builder.maxConnectionLifeTime(100000);// ×î´óÉúÃüÊ±¼ä
-		builder.maxWaitTime(10000);// ×î´óµÈ´ıÊ±¼ä
-		builder.serverSelectionTimeout(50000);// ·şÎñÆ÷Ñ¡Ôñ³¬Ê±Ê±¼ä
-		builder.socketKeepAlive(false);// ÉèÖÃÌ×½Ó×ÖÓÀ¾Ã´æ»î
-		builder.socketTimeout(1000);// Ì×½Ó×Ö³¬Ê±Ê±¼ä
-		builder.sslEnabled(false);// ÊÇ·ñÆôÓÃssl
-		builder.sslInvalidHostNameAllowed(false);// ÊÇ·ñÔÊĞíÎŞĞ§µÄsslÁ´½Ó
-		builder.readConcern(ReadConcern.DEFAULT);// Ğ´ ¹Ø×¢ Ê²Ã´¹í
-		builder.writeConcern(WriteConcern.ACKNOWLEDGED);// Í¬ÉÏ
-		builder.readPreference(ReadPreference.nearest());// ×î½üÓÅÏÈ²ßÂÔ
+		builder.connectionsPerHost(100);// æ¯ä¸ªä¸»æœºçš„æœ€å¤§é“¾æ¥æ•°
+		builder.threadsAllowedToBlockForConnectionMultiplier(50);// æœ€å¤§è¯·æ±‚ç­‰å¾…æ•°
+		builder.minConnectionsPerHost(10);// æ¯ä¸ªä¸»æœºçš„æœ€å°é“¾æ¥æ•°
+		builder.connectTimeout(5000);// é“¾æ¥è¶…æ—¶æ—¶é—´
+		builder.heartbeatConnectTimeout(5000);// åå°æ£€æµ‹æ¯ä¸ªmongoclienté“¾æ¥çš„è¶…æ—¶æ—¶é—´
+		builder.heartbeatFrequency(100000);// åå°æ£€æµ‹æ¯ä¸ªmongoclienté“¾æ¥çš„é¢‘ç‡
+		builder.minHeartbeatFrequency(10000);// åå°æ£€æµ‹æ¯ä¸ªmongoclienté“¾æ¥çš„æœ€å°é¢‘ç‡
+		builder.heartbeatSocketTimeout(2000);// åå°æ£€æµ‹æ¯ä¸ªmongoclientçš„å¥—æ¥å­—è¶…æ—¶æ—¶é—´
+		builder.maxConnectionIdleTime(10000);// æœ€å¤§ç©ºé—²é“¾æ¥æ—¶é—´
+		builder.maxConnectionLifeTime(100000);// æœ€å¤§ç”Ÿå‘½æ—¶é—´
+		builder.maxWaitTime(10000);// æœ€å¤§ç­‰å¾…æ—¶é—´
+		builder.serverSelectionTimeout(50000);// æœåŠ¡å™¨é€‰æ‹©è¶…æ—¶æ—¶é—´
+		builder.socketKeepAlive(false);// è®¾ç½®å¥—æ¥å­—æ°¸ä¹…å­˜æ´»
+		builder.socketTimeout(1000);// å¥—æ¥å­—è¶…æ—¶æ—¶é—´
+		builder.sslEnabled(false);// æ˜¯å¦å¯ç”¨ssl
+		builder.sslInvalidHostNameAllowed(false);// æ˜¯å¦å…è®¸æ— æ•ˆçš„sslé“¾æ¥
+		builder.readConcern(ReadConcern.DEFAULT);// å†™ å…³æ³¨ ä»€ä¹ˆé¬¼
+		builder.writeConcern(WriteConcern.ACKNOWLEDGED);// åŒä¸Š
+		builder.readPreference(ReadPreference.nearest());// æœ€è¿‘ä¼˜å…ˆç­–ç•¥
 		return builder.build();
 	}
 
 	/**
-	 * ÎŞĞèÑéÖ¤ÕËºÅÃÜÂëÁ´½Ó,·µ»ØÊı¾İ¿âÁ¬½Ó
+	 * æ— éœ€éªŒè¯è´¦å·å¯†ç é“¾æ¥,è¿”å›æ•°æ®åº“è¿æ¥
 	 */
 	private static void initMongoDBNoAuth() {
-		// Á¬½Óµ½MongoDB·şÎñ Èç¹ûÊÇÔ¶³ÌÁ¬½Ó¿ÉÒÔÌæ»»¡°localhost¡±Îª·şÎñÆ÷ËùÔÚIPµØÖ·
-		// ServerAddress()Á½¸ö²ÎÊı·Ö±ğÎª ·şÎñÆ÷µØÖ· ºÍ ¶Ë¿Ú
+		// è¿æ¥åˆ°MongoDBæœåŠ¡ å¦‚æœæ˜¯è¿œç¨‹è¿æ¥å¯ä»¥æ›¿æ¢â€œlocalhostâ€ä¸ºæœåŠ¡å™¨æ‰€åœ¨IPåœ°å€
+		// ServerAddress()ä¸¤ä¸ªå‚æ•°åˆ†åˆ«ä¸º æœåŠ¡å™¨åœ°å€ å’Œ ç«¯å£
 		ServerAddress serverAddress = new ServerAddress(PropertyUtils.getValue("server"),
 				Integer.parseInt(PropertyUtils.getValue("port")));
 
 		List<ServerAddress> addrs = new ArrayList<ServerAddress>();
 		addrs.add(serverAddress);
 
-		// ÎŞĞèÁ´½ÓÈÏÖ¤²ÅÄÜ»ñÈ¡µ½Êı¾İ¿âÁ¬½Ó
+		// æ— éœ€é“¾æ¥è®¤è¯æ‰èƒ½è·å–åˆ°æ•°æ®åº“è¿æ¥
 		mongoClient = new MongoClient(addrs, mongoClientOptions());
 
 	}
 
 	/**
-	 * ÑéÖ¤ÕËºÅÃÜÂëÁ´½Ó£¬·µ»ØÊı¾İ¿âÁ¬½Ó
+	 * éªŒè¯è´¦å·å¯†ç é“¾æ¥ï¼Œè¿”å›æ•°æ®åº“è¿æ¥
 	 */
 	private static void initMongoDBAuth() {
-		// Á¬½Óµ½MongoDB·şÎñ Èç¹ûÊÇÔ¶³ÌÁ¬½Ó¿ÉÒÔÌæ»»¡°localhost¡±Îª·şÎñÆ÷ËùÔÚIPµØÖ·
-		// ServerAddress()Á½¸ö²ÎÊı·Ö±ğÎª ·şÎñÆ÷µØÖ· ºÍ ¶Ë¿Ú
+		// è¿æ¥åˆ°MongoDBæœåŠ¡ å¦‚æœæ˜¯è¿œç¨‹è¿æ¥å¯ä»¥æ›¿æ¢â€œlocalhostâ€ä¸ºæœåŠ¡å™¨æ‰€åœ¨IPåœ°å€
+		// ServerAddress()ä¸¤ä¸ªå‚æ•°åˆ†åˆ«ä¸º æœåŠ¡å™¨åœ°å€ å’Œ ç«¯å£
 		ServerAddress serverAddress = new ServerAddress(PropertyUtils.getValue("server"),
 				Integer.parseInt(PropertyUtils.getValue("port")));
 
 		List<ServerAddress> addrs = new ArrayList<ServerAddress>();
 		addrs.add(serverAddress);
 
-		// MongoCredential.createScramSha1Credential()Èı¸ö²ÎÊı·Ö±ğÎª ÓÃ»§Ãû Êı¾İ¿âÃû³Æ ÃÜÂë
+		// MongoCredential.createScramSha1Credential()ä¸‰ä¸ªå‚æ•°åˆ†åˆ«ä¸º ç”¨æˆ·å æ•°æ®åº“åç§° å¯†ç 
 		MongoCredential credential = MongoCredential.createScramSha1Credential(PropertyUtils.getValue("user"),
 				PropertyUtils.getValue("database"), PropertyUtils.getValue("password").toCharArray());
 
 		List<MongoCredential> credentials = new ArrayList<MongoCredential>();
 		credentials.add(credential);
 
-		// ±ØĞëÍ¨¹ıÁ´½ÓÈÏÖ¤²ÅÄÜ»ñÈ¡µ½Êı¾İ¿âÁ¬½Ó
+		// å¿…é¡»é€šè¿‡é“¾æ¥è®¤è¯æ‰èƒ½è·å–åˆ°æ•°æ®åº“è¿æ¥
 		mongoClient = new MongoClient(addrs, credentials, mongoClientOptions());
 	}
 
 	/**
-	 * ¹Ø±ÕÁ¬½Ó
+	 * å…³é—­è¿æ¥
 	 */
 	public static void closeMongoClient() {
 		if (null != mongoClient) {
@@ -121,7 +121,7 @@ public class MongoDBPool {
 
 	public static void main(String[] args) {
 		
-		//¿ØÖÆÈÕÖ¾¸ñÊ½
+		//æ§åˆ¶æ—¥å¿—æ ¼å¼
 		Logger mongologger=Logger.getLogger("");
 		mongologger.setLevel(Level.WARNING);
 		

@@ -22,76 +22,76 @@ public class MongoDB {
 
 	public static void main(String[] args) {
 		MongoDatabase mdb = MongoDBPool.getDB();
-		// È·±£Á´½ÓÊı¾İ¿âÕı³£
+		// ç¡®ä¿é“¾æ¥æ•°æ®åº“æ­£å¸¸
 		if (null == mdb) {
-			System.out.println("Á´½ÓmongodbÒì³£");
+			System.out.println("é“¾æ¥mongodbå¼‚å¸¸");
 			return;
 		}
 
 		/*
-		 * //´´½¨Ò»¸ö¼¯ºÏ mdb.createCollection("javacol");
+		 * //åˆ›å»ºä¸€ä¸ªé›†åˆ mdb.createCollection("javacol");
 		 * 
-		 * //»ñÈ¡Ò»¸ö¼¯ºÏ MongoCollection<Document> collection=
-		 * mdb.getCollection("javacol"); //²éÑ¯µ½Êı¾İ£¬µü´ú³öÊıÖµ if(collection.count()>0){
-		 * //»ñÈ¡µü´úÆ÷ FindIterable<Document> fid=collection.find(); //»ñÈ¡ÓÎ±ê
+		 * //è·å–ä¸€ä¸ªé›†åˆ MongoCollection<Document> collection=
+		 * mdb.getCollection("javacol"); //æŸ¥è¯¢åˆ°æ•°æ®ï¼Œè¿­ä»£å‡ºæ•°å€¼ if(collection.count()>0){
+		 * //è·å–è¿­ä»£å™¨ FindIterable<Document> fid=collection.find(); //è·å–æ¸¸æ ‡
 		 * MongoCursor<Document> mcd=fid.iterator(); while(mcd.hasNext()){
 		 * System.out.println(mcd.next()); } }
 		 */
 
-		// ²åÈëÎÄµµ
+		// æ’å…¥æ–‡æ¡£
 		/*
-		 * 1. ´´½¨ÎÄµµ org.bson.Document ²ÎÊıÎªkey-valueµÄ¸ñÊ½ 2. ´´½¨ÎÄµµ¼¯ºÏList<Document> 3.
-		 * ½«ÎÄµµ¼¯ºÏ²åÈëÊı¾İ¿â¼¯ºÏÖĞ mongoCollection.insertMany(List<Document>) ²åÈëµ¥¸öÎÄµµ¿ÉÒÔÓÃ
+		 * 1. åˆ›å»ºæ–‡æ¡£ org.bson.Document å‚æ•°ä¸ºkey-valueçš„æ ¼å¼ 2. åˆ›å»ºæ–‡æ¡£é›†åˆList<Document> 3.
+		 * å°†æ–‡æ¡£é›†åˆæ’å…¥æ•°æ®åº“é›†åˆä¸­ mongoCollection.insertMany(List<Document>) æ’å…¥å•ä¸ªæ–‡æ¡£å¯ä»¥ç”¨
 		 * mongoCollection.insertOne(Document)
 		 * 
 		 * Document document=new Document("title", "java MongoDB new"
-		 * ).append("content", "Ê¹ÓÃjava²åÈëmongodbÊı¾İnew").append("showcount", 9);
+		 * ).append("content", "ä½¿ç”¨javaæ’å…¥mongodbæ•°æ®new").append("showcount", 9);
 		 * document.append("inserttime", new Date());
 		 * 
-		 * //Ñ¡ÔñÒ»¸ö½«Òª²åÈëµÄ¼¯ºÏ MongoCollection<Document>
+		 * //é€‰æ‹©ä¸€ä¸ªå°†è¦æ’å…¥çš„é›†åˆ MongoCollection<Document>
 		 * collections=mdb.getCollection("javacol");
 		 * 
-		 * //½«ÎÄµµ²åÈëÑ¡ÔñµÄ¼¯ºÏÖĞ collections.insertOne(document);
+		 * //å°†æ–‡æ¡£æ’å…¥é€‰æ‹©çš„é›†åˆä¸­ collections.insertOne(document);
 		 */
 
-		// ¸üĞÂÎÄµµ
-		// »ñÈ¡Ò»¸ö¼¯ºÏ
+		// æ›´æ–°æ–‡æ¡£
+		// è·å–ä¸€ä¸ªé›†åˆ
 		MongoCollection<Document> collection = mdb.getCollection("javacol");
-		// ²éÑ¯µ½Êı¾İ£¬µü´ú³öÊıÖµ
+		// æŸ¥è¯¢åˆ°æ•°æ®ï¼Œè¿­ä»£å‡ºæ•°å€¼
 		if (collection.count() > 0) {
-			// »ñÈ¡µü´úÆ÷
+			// è·å–è¿­ä»£å™¨
 			FindIterable<Document> fid = collection.find();
-			// »ñÈ¡ÓÎ±ê
+			// è·å–æ¸¸æ ‡
 			MongoCursor<Document> mcd = fid.iterator();
 			while (mcd.hasNext()) {
 				System.out.println(mcd.next());
 			}
 		}
 		
-		// ½«ÎÄµµÖĞshowcountĞ¡ÓÚ20µÄ¸üĞÂÎÊ25
+		// å°†æ–‡æ¡£ä¸­showcountå°äº20çš„æ›´æ–°é—®25
 		MongoCollection<Document> collections = mdb.getCollection("javacol");
-		//µÚÒ»ÖÖ¸üĞÂ
+		//ç¬¬ä¸€ç§æ›´æ–°
 		//collections.updateMany(Filters.lt("showcount", 20), new Document("$set", new Document("showcount", 25)));
 		
-		//µÚ¶şÖÖ¸üĞÂ dbpar whereÒ»¸ö»ò¶à¸öÌõ¼ş and
+		//ç¬¬äºŒç§æ›´æ–° dbpar whereä¸€ä¸ªæˆ–å¤šä¸ªæ¡ä»¶ and
 		BasicDBObject dbpar=new BasicDBObject();
 		dbpar.append("showcount", new BasicDBObject("$lt",25));
 		dbpar.append("title", "java MongoDB");
 		
 		
-		//or²Ù×÷ paror Ä³¼¸¸öÌõ¼şor
+		//oræ“ä½œ paror æŸå‡ ä¸ªæ¡ä»¶or
 		BasicDBList dblist=new BasicDBList();
 		dblist.add(new BasicDBObject("showcount", new BasicDBObject("$lt",25)));
 		dblist.add(new BasicDBObject("title", "java MongoDB"));
 		BasicDBObject paror=new BasicDBObject("$or",dblist);
 		
-		//in²Ù×÷ parin 
+		//inæ“ä½œ parin 
 		BasicDBList dbinlist=new BasicDBList();
 		dbinlist.add(21);
 		dbinlist.add(27);
 		BasicDBObject parin=new BasicDBObject("showcount",new BasicDBObject("$in",dbinlist));
 		
-		//ÈÎÒâÁ½¸ö½áºÏ
+		//ä»»æ„ä¸¤ä¸ªç»“åˆ
 		BasicDBObject bdo2=new BasicDBObject();
 		
 		BasicDBList dbor=new BasicDBList();
@@ -103,10 +103,10 @@ public class MongoDB {
 
 		
 		bdo2.put("$or",dbor);
-		bdo2.put("content","Ê¹ÓÃjava²åÈëmongodbÊı¾İnew1");
+		bdo2.put("content","ä½¿ç”¨javaæ’å…¥mongodbæ•°æ®new1");
 		
 		
-		//setÖµ
+		//setå€¼
 		BasicDBObject dbinc=new BasicDBObject("showcount", 0);
 		BasicDBObject dbset=new BasicDBObject("title", "update Mongodb java0");
 		
@@ -114,24 +114,24 @@ public class MongoDB {
 		dbsetall.put("$inc", dbinc);
 		dbsetall.put("$set", dbset);
 		
-		//¸üĞÂºËĞÄÓï¾ä
+		//æ›´æ–°æ ¸å¿ƒè¯­å¥
 		//collections.updateMany(bdo2, dbsetall);
 		
-		//É¾³ıÎÄµµ1
+		//åˆ é™¤æ–‡æ¡£1
 		//collections.deleteOne(Filters.eq("showcount",25 ));
-		//É¾³ıÎÄµµ2
+		//åˆ é™¤æ–‡æ¡£2
 		BasicDBObject bpar=new BasicDBObject();
 		bpar.append("showcount", new BasicDBObject("$lt",25));
 		//collections.deleteMany(bpar);
 		
 		
-		System.out.println("¸üĞÂºóÊı¾İ");
+		System.out.println("æ›´æ–°åæ•°æ®");
 		collection = mdb.getCollection("javacol");
-		// ²éÑ¯µ½Êı¾İ£¬µü´ú³öÊıÖµ
+		// æŸ¥è¯¢åˆ°æ•°æ®ï¼Œè¿­ä»£å‡ºæ•°å€¼
 		if (collection.count() > 0) {
-			// »ñÈ¡µü´úÆ÷
+			// è·å–è¿­ä»£å™¨
 			FindIterable<Document> fid = collection.find();
-			// »ñÈ¡ÓÎ±ê
+			// è·å–æ¸¸æ ‡
 			MongoCursor<Document> mcd = fid.iterator();
 			while (mcd.hasNext()) {
 				System.out.println(mcd.next());
@@ -141,19 +141,19 @@ public class MongoDB {
 		
 		
 		
-		//×Ô¶¯Ôö³¤µÄid
-		//´´½¨counters¼¯ºÏ£¬ĞòÁĞ×Ö¶Î¿ÉÒÔ×ÔÔö³¤
+		//è‡ªåŠ¨å¢é•¿çš„id
+		//åˆ›å»ºcountersé›†åˆï¼Œåºåˆ—å­—æ®µå¯ä»¥è‡ªå¢é•¿
 		
 		//mdb.createCollection("counters");
 		
-		//²åÈëÒ»ÏÂÎÄµµ£¬Ê¹ÓÃproductidÎªkey
+		//æ’å…¥ä¸€ä¸‹æ–‡æ¡£ï¼Œä½¿ç”¨productidä¸ºkey
 		
 		//mdb.getCollection("counters").insertOne(new Document().append("_id", "productid").append("sequence_value", 0));
 		
-		//´´½¨Ò»¸öº¯Êı£¬Ö¸¶¨µÄĞòÁĞ»á×Ô¶¯Ôö³¤ 1 ²¢·µ»Ø×îĞÂĞòÁĞÖµ
+		//åˆ›å»ºä¸€ä¸ªå‡½æ•°ï¼ŒæŒ‡å®šçš„åºåˆ—ä¼šè‡ªåŠ¨å¢é•¿ 1 å¹¶è¿”å›æœ€æ–°åºåˆ—å€¼
 		//int id=getNextSequenceValue("productid", mdb);
 		
-		//²åÈëÒ»Ìõ¼ÇÂ¼
+		//æ’å…¥ä¸€æ¡è®°å½•
 		Document incdoc=new Document();
 		incdoc.append("_id", getNextSequenceValue("productid", mdb));
 		incdoc.append("productname", "samsung");
@@ -163,7 +163,7 @@ public class MongoDB {
 	}
 	
 	
-	//´´½¨Ò»¸öº¯Êı£¬Ö¸¶¨µÄĞòÁĞ»á×Ô¶¯Ôö³¤ 1 ²¢·µ»Ø×îĞÂĞòÁĞÖµ
+	//åˆ›å»ºä¸€ä¸ªå‡½æ•°ï¼ŒæŒ‡å®šçš„åºåˆ—ä¼šè‡ªåŠ¨å¢é•¿ 1 å¹¶è¿”å›æœ€æ–°åºåˆ—å€¼
 	public static int getNextSequenceValue(String key,MongoDatabase mdb){
 		Document doc= mdb.getCollection("counters").findOneAndUpdate(new BasicDBObject("_id",key), new BasicDBObject("$inc",new BasicDBObject("sequence_value",1)));
 		return Integer.parseInt(doc.get("sequence_value").toString());

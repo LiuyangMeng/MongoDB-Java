@@ -5,7 +5,7 @@ import java.util.Properties;
 /**
  * 
  * @author DLHT
- * 解析配置文件信息
+ * 瑙ｆ瀽閰嶇疆鏂囦欢淇℃伅
  *
  */
 public class PropertyUtils {
