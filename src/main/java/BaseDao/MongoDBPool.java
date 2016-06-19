@@ -128,12 +128,12 @@ public class MongoDBPool {
 
 		try {
 			System.out.println(MongoDBPool.getDB().getCollection("javacol").find().first().toJson());
-			Thread.currentThread().sleep(3000);
+			Thread.sleep(3000);
 			System.out.println(MongoDBPool.getDB().getCollection("javacol").find().first().toJson());
-			Thread.currentThread().sleep(3000);
+			Thread.sleep(3000);
 			System.out.println(MongoDBPool.getDB().getCollection("javacol").find().first().toJson());
 			MongoDBPool.closeMongoClient();
-			Thread.currentThread().sleep(3000);
+			Thread.sleep(3000);
 			System.out.println(MongoDBPool.getDB().getCollection("javacol").find().first().toJson());
 
 		} catch (InterruptedException e) {
