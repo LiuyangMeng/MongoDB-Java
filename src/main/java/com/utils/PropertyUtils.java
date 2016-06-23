@@ -1,4 +1,4 @@
-package utils;
+package com.utils;
 
 import java.io.IOException;
 import java.util.Properties;
