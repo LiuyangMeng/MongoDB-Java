@@ -47,18 +47,18 @@ public class MongoDBPool {
 		Builder builder = new MongoClientOptions.Builder();
 		builder.connectionsPerHost(100);// 每个主机的最大链接数
 		builder.threadsAllowedToBlockForConnectionMultiplier(50);// 最大请求等待数
-		builder.minConnectionsPerHost(10);// 每个主机的最小链接数
+		builder.minConnectionsPerHost(5);// 每个主机的最小链接数
 		builder.connectTimeout(1000*5);// 链接超时时间
 		builder.heartbeatConnectTimeout(5000);// 后台检测每个mongoclient链接的超时时间
 		builder.heartbeatFrequency(100000);// 后台检测每个mongoclient链接的频率
 		builder.minHeartbeatFrequency(10000);// 后台检测每个mongoclient链接的最小频率
 		builder.heartbeatSocketTimeout(2000);// 后台检测每个mongoclient的套接字超时时间
-		builder.maxConnectionIdleTime(1000*60);// 最大空闲链接时间
-		builder.maxConnectionLifeTime(100000);// 最大生命时间
-		builder.maxWaitTime(10000);// 最大等待时间
+		builder.maxConnectionIdleTime(1000*60*30);// 最大空闲链接时间
+		builder.maxConnectionLifeTime(1000*60*60*8);// 最大生命时间
+		builder.maxWaitTime(1000*5);// 最大等待时间
 		builder.serverSelectionTimeout(50000);// 服务器选择超时时间
 		builder.socketKeepAlive(false);// 设置套接字永久存活
-		builder.socketTimeout(1000);// 套接字超时时间
+		builder.socketTimeout(1000*3);// 套接字超时时间
 		builder.sslEnabled(false);// 是否启用ssl
 		builder.sslInvalidHostNameAllowed(false);// 是否允许无效的ssl链接
 		builder.readConcern(ReadConcern.DEFAULT);// 写 关注 什么鬼

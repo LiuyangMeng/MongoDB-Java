@@ -28,4 +28,8 @@ public class CurdServiceImpl implements CurdService {
 		return curdDao.getAllUser();
 	}
 
+	public long delUserById(String id) {
+		return curdDao.delUserById(id);
+	}
+
 }

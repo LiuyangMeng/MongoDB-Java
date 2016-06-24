@@ -15,4 +15,8 @@ public interface CurdService {
 	 * 获取全部用户信息
 	 */
 	public List<Map<String, Object>> getAllUser();
+	/*
+	 * 通过用户id删除用户
+	 */
+	public long delUserById(String id);
 }

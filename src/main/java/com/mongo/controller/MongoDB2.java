@@ -173,7 +173,7 @@ public class MongoDB2 {
 		bpar.append("showcount", new BasicDBObject("$lt", 25));
 		// collections.deleteMany(bpar);
 
-		System.out.println("更新后数据");
+		System.out.println("删除后数据");
 		collections = mdb.getCollection("javacol");
 		// 查询到数据，迭代出数值
 		if (collections.count() > 0) {

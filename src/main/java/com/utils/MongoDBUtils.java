@@ -11,6 +11,8 @@ import java.util.Set;
 import org.bson.Document;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.util.JSON;
 
 /**
  * 将mongodb的返回数据解析为json格式

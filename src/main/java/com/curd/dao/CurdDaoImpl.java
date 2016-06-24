@@ -3,9 +3,12 @@ package com.curd.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
 import com.base.MongoDBPool;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.result.DeleteResult;
 import com.utils.MongoDBUtils;
 
 /**
@@ -23,6 +26,10 @@ public class CurdDaoImpl extends MongoDBPool implements CurdDao {
 	 */
 	public List<Map<String, Object>> getAllUser() {
 		return MongoDBUtils.findItDTOJson(MongoDBPool.getDB().getCollection("user").find());
+	}
+
+	public long delUserById(String id) {
+		return MongoDBPool.getDB().getCollection("user").deleteOne(new BasicDBObject("_id", new ObjectId(id))).getDeletedCount();
 	}
 
 }
