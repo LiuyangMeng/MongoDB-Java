@@ -19,4 +19,8 @@ public interface CurdService {
 	 * 通过用户id删除用户
 	 */
 	public long delUserById(String id);
+	/*
+	 * 保存或者更新数据
+	 */
+	public long saveOrUpdateUser(Object[] params);
 }

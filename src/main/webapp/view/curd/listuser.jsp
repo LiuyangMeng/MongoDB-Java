@@ -12,11 +12,11 @@
 <script type="text/javascript" src="${ctx}/js/CommonJS.js"></script>
 <script type="text/javascript">
 	//检测是否有未保存的数据
-	var nosave = 0;
+	var nosave = false;
 	//编辑数据  
 	function editUser(id, name, age, likes) {
-		if(nosave>0){
-			if(!confirm('您有未保存的数据，继续操作将放弃数据')){
+		if (nosave) {
+			if (!confirm('您有未保存的数据，继续操作将放弃数据')) {
 				return;
 			}
 		}
@@ -24,55 +24,70 @@
 			alert('请在指定网页上操作!');
 			return;
 		}
+		$('#objectid').val(id);
 		$('#name').val(name);
 		$('#age').val(parseFloat(age));
 		$('#likes').val(likes.tostr(','));
 		$('#inupdiv').show();
-		nosave=1;
+		nosave = true;
 	}
 	//添加数据
-	function addUser(){
-		if(nosave>0){
-			if(!confirm('您有未保存的数据，继续操作将放弃数据')){
+	function addUser() {
+		if (nosave) {
+			if (!confirm('您有未保存的数据，继续操作将放弃数据')) {
 				return;
 			}
 		}
+		$('#objectid').val(0);
 		$('#name').val('');
 		$('#age').val('');
 		$('#likes').val('');
 		$('#inupdiv').show();
-		nosave=2;
+		nosave = true;
 	}
-	
+
 	//存储数据
-	function saveUser(){
-		if ($('#name') == undefined || $('#name').val().trim() == '') {
-            alert('名称不能为空');
-            return;
-        }
-        $('#age').val($('#age').val().onlyNum(0,3,false));
-        if ($('#age') == undefined || $('#age').val() == '') {
-            alert('年龄不能为空');
-            return;
-        }
-        if ($('#likes') == undefined || $('#likes').val() == '') {
-            alert('爱好不能为空');
-            return;
-        }
-        
-        //更新
-        if(nosave==1){
-        	
-        	//新增
-        }else if(nosave==2){
-        	
-        }
-        
-		
+	function saveUser() {
+		var objectid=$('#objectid');
+		var name=$('#name');
+		//统一校验数据
+		if (name == undefined || name.val().trim() == '') {
+			alert('名称不能为空');
+			return;
+		}
+		$('#age').val($('#age').val().onlyNum(0, 3, false));
+		var age=$('#age');
+		if (age == undefined || age.val() == '') {
+			alert('年龄不能为空');
+			return;
+		}
+		var likes=$('#likes');
+		if (likes == undefined || likes.val().trim() == '') {
+			alert('爱好不能为空');
+			return;
+		}
+
+		//更新或新增
+		$.ajax({
+			type : 'post',
+			url : '${ctx}/curd/saveOrUpdateUser.do?flag=' + Math.random(),
+			data : 'objectid=' + objectid.val()+'&name='+name.val()+'&age='+age.val()+'&likes='+likes.val(),
+			success : function(data) {
+				if (data == 'saveupdate') {
+					nosave = false;
+					alert('操作成功');
+					window.location.reload(true);
+				} else {
+					alert('本次操作失败,没有数据更改');
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert('操作异常，错误码为:' + XMLHttpRequest.status);
+			}
+		});
+
 	}
-	
-	
-	
+
 	//删除数据
 	function delUser(id, name) {
 		if (null == id || id == undefined || id.trim() == '') {
@@ -120,7 +135,7 @@
 							<c:when test="${empty user.likes }">无</c:when>
 							<c:otherwise>
 								<c:forEach items="${user.likes }" var="likes" varStatus="str">
-									<c:if test="${str.count>1 }">| </c:if>${likes} 
+									<c:if test="${str.count>1 }">,</c:if>${likes} 
 					</c:forEach>
 							</c:otherwise>
 						</c:choose></td>
@@ -137,8 +152,10 @@
 	<button style="margin: 10px 0px 0px 60%" onclick="addUser();">新增</button>
 	<div id="inupdiv"
 		style="display: none; padding-left: 40%; margin-top: 100px;">
-		<label>姓名:</label> <input type="text" id="name" name="name" /><br />
-		<label>年龄:</label> <input type="text" id="age" name="age" onkeyup="this.value=value.onlyNum(0,3,false);" /><br /> <label>爱好:</label>
+		<input type="hidden" name="objectid" id="objectid" value="0" /> <label>姓名:</label>
+		<input type="text" id="name" name="name" /><br /> <label>年龄:</label>
+		<input type="text" id="age" name="age"
+			onkeyup="this.value=value.onlyNum(0,3,false);" /><br /> <label>爱好:</label>
 		<textarea rows="3" cols="20" id="likes" name="likes"></textarea>
 		<br />
 		<button style="margin: 10px 0px 0px 80px" onclick="saveUser();">提交</button>

@@ -19,4 +19,12 @@ public interface CurdDao {
 	 * 通过用户id删除用户
 	 */
 	public long delUserById(String id);
+	/*
+	 * 新增一个用户
+	 */
+	public long saveUser(Object[] params);
+	/*
+	 * 更新一个用户
+	 */
+	public long updateUser(Object[] params);
 }
